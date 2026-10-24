@@ -23,7 +23,6 @@ app.get('/status', (req, res) => {
     });
 });
 
-// Start the server and export for testing
 const server = app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
