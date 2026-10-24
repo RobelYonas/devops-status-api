@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
 const startTime = Date.now();
+const { version } = require('./package.json');
 
 // Metrics tracking
 let totalRequests = 0;
@@ -33,7 +34,7 @@ app.get('/health', (req, res) => {
 // Status endpoint - reports system info
 app.get('/status', (req, res) => {
     res.json({
-        version: '1.1.0',
+        version,
         uptime: Math.floor((Date.now() - startTime) / 1000),
         timestamp: new Date().toISOString()
     });
