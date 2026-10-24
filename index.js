@@ -17,7 +17,7 @@ app.get('/health', (req, res) => {
 // Status endpoint - reports system info
 app.get('/status', (req, res) => {
     res.json({
-        version: '1.0.0',
+        version: '1.0.1',
         uptime: Math.floor((Date.now() - startTime) / 1000),
         timestamp: new Date().toISOString()
     });
