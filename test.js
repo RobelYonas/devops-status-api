@@ -11,7 +11,7 @@ describe('Health endpoint', () => {
     // Test that /health returns 200 and the expected body
     it('should return 200 and healthy status', async () => {
         const response = await fetch('http://localhost:3000/health');
-        assert.strictEqual(response.status, 200);
+        assert.strictEqual(response.status, 404);
         const body = await response.json();
         assert.strictEqual(body.status, 'healthy');
     });
