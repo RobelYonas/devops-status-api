@@ -4,6 +4,22 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const startTime = Date.now();
 
+// Metrics tracking
+let totalRequests = 0;
+let totalResponseTime = 0;
+
+// Metrics middleware
+app.use((req, res, next) => {
+    totalRequests++;
+    const start = Date.now();
+    res.on('finish', () => {
+        totalResponseTime += Date.now() - start;
+    });
+    next();
+});
+
+
+
 // Root route - confirms the API is reachable
 app.get('/', (req, res) => {
     res.json({ message: 'Welcome to the DevOps Status API' });
@@ -17,9 +33,21 @@ app.get('/health', (req, res) => {
 // Status endpoint - reports system info
 app.get('/status', (req, res) => {
     res.json({
-        version: '1.0.1',
+        version: '1.1.0',
         uptime: Math.floor((Date.now() - startTime) / 1000),
         timestamp: new Date().toISOString()
+    });
+});
+
+app.get('/metrics', (req, res) => {
+    const avgResponseTimeMs = totalRequests > 0
+        ? Math.round(totalResponseTime / totalRequests)
+        : 0;
+
+    res.json({
+        totalRequests,
+        avgResponseTimeMs,
+        uptime: Math.floor((Date.now() - startTime) / 1000)
     });
 });
 
