@@ -25,4 +25,17 @@ describe('Health endpoint', () => {
         assert.ok(body.uptime >= 0);
         assert.ok(body.timestamp);
     });
+
+    // Test that /metrics returns the expected fields as numbers
+    it('should return metric results', async () => {
+        const response = await fetch('http://localhost:3000/metrics');
+        assert.strictEqual(response.status, 200);
+        const body = await response.json();
+        assert.strictEqual(typeof body.totalRequests, 'number');
+        assert.strictEqual(typeof body.avgResponseTimeMs, 'number');
+        assert.strictEqual(typeof body.uptime, 'number');
+        assert.ok(body.totalRequests > 0);
+        assert.ok(body.avgResponseTimeMs >= 0);
+        assert.ok(body.uptime >= 0);
+    });
 });
